@@ -1,6 +1,6 @@
 {
   "name": "grunt-neuter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Builds source files in the order you require.",
   "main": "Gruntfile.js",
   "scripts": {
@@ -10,7 +10,8 @@
   "keywords": [
     "build",
     "grunt",
-    "concat"
+    "concat",
+    "gruntplugin"
   ],
   "author": "Trek Glowacki",
   "license": "MIT",

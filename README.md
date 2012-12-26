@@ -10,6 +10,18 @@ If you haven't used [grunt][] before, be sure to check out the [Getting Started]
 ```shell
 npm install grunt-neuter --save-dev
 ```
+or for the latest version
+
+```shell
+npm install git://github.com/trek/grunt-neuter.git --save-dev
+```
+
+Then include the tasks in your project's Gruntfile
+
+```javascript
+grunt.loadNpmTasks('grunt-neuter');
+```
+
 
 [grunt]: http://gruntjs.com/
 [Getting Started]: https://github.com/gruntjs/grunt/wiki/Getting-started

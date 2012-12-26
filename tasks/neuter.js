@@ -83,6 +83,6 @@ module.exports = function(grunt) {
     // iteratre over them calling the finder method defined above.
     // write out the resulting string the destination.
     var outStr = grunt.file.expand({nonull: true}, this.file.srcRaw).map(finder, this);
-    grunt.file.write(this.file.dest, outStr);
+    grunt.file.write(this.file.dest, outStr.join(''));
   });
 };

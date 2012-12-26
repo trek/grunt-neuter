@@ -43,8 +43,14 @@ module.exports = function(grunt) {
       }
 
       var src = grunt.file.read(filepath);
+
+      // an object that will be used as rendering
+      // context for the template.
       var templateData = {
         data: {
+          // requires are stripped from the file
+          // since 'require' doesn't have consistent
+          // meaning in browsers.
           text: src.replace(requireMatcher, '')
         }
       };

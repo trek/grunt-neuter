@@ -1,12 +1,12 @@
 {
   "name": "grunt-neuter",
   "version": "0.0.1",
-  "description": "Builds source files in order you require.",
+  "description": "Builds source files in the order you require.",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "grunt test"
   },
-  "repository": "",
+  "repository": "git@github.com:trek/grunt-neuter.git",
   "keywords": [
     "build",
     "grunt",

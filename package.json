@@ -13,7 +13,7 @@
     "concat",
     "gruntplugin"
   ],
-  "author": "Trek Glowacki",
+  "author": "Trek Glowacki <trek.glowacki@gamil.com>",
   "license": "MIT",
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.0",

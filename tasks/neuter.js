@@ -12,77 +12,73 @@ module.exports = function(grunt) {
     // track required files for this task.
     // once a file has been required it will be added to this array
     // which will be checked before attempting to add a file.
+    // each file can be required only once.
     var required = [];
+
+    // the bufffer that we appened to over this run. 
+    var out = [];
 
     // matches `require('some/path/file');` statements.
     // no need to include a .js as this will be appended for you.
-    var requireMatcher = /require\([\'||\"](.*)[\'||\"]\);+/gi;
+    var requireSplitter = /(require\([\'||\"].*[\'||\"]\));+\n*/;
+    var requireMatcher = /require\([\'||\"](.*)[\'||\"]\)/;
 
     var options = this.options({
-      template: "(function() {\n<%= text %>\n})();",
-      separator: grunt.util.linefeed,
+      template: "(function() {\n\n<%= src %>\n\n})();",
+      separator: "\n\n",
       includeSourceURL: false
     });
 
     var finder = function(filepath){
-
-      // the bufffer string that appened to over this run. 
-      var out = "";
-
       if (!grunt.file.exists(filepath)) {
         grunt.log.error('Source file "' + filepath + '" not found.');
         return '';
       }
 
-      // once a file has been required it will never be written to
-      // the resulting destination file again.
+      // once a file has been required its source will 
+      // never be written to the resulting destination file again.
       if (required.indexOf(filepath) === -1) {
         required.push(filepath);
-      } else {
-        return '';
+
+        // read the file and split it into code sections
+        // these will be either require(...) statements
+        // or blocks of code.
+        var src = grunt.file.read(filepath);
+        var sections = src.split(requireSplitter);
+        
+        // loop through sections appending to out buffer.
+        sections.forEach(function(section){
+          if (!section.length) { return; }
+
+          // if the section is a require statement
+          // recursively call find again. Otherwise
+          // push the code section onto the buffer.
+          var match = requireMatcher.exec(section);
+          if (match) {
+            finder(match[1] + '.js');
+          } else {
+            out.push({filepath: filepath, src: section});
+          }
+        });
       }
-
-      var src = grunt.file.read(filepath);
-
-      // an object that will be used as rendering
-      // context for the template.
-      var templateData = {
-        data: {
-          // requires are stripped from the file
-          // since 'require' doesn't have consistent
-          // meaning in browsers.
-          text: src.replace(requireMatcher, '')
-        }
-      };
-
-      // find instances of `require('some/path/to/file')`
-      // and recursively call this method again for any
-      // referenced files. The source of these files will
-      // be appended before writing out the source of
-      // the file being processed.
-      var matches;
-      while ((matches = requireMatcher.exec(src)) != null) {
-        var foundRequirePath = matches[1] + ".js";
-        out += finder(foundRequirePath);
-      }
-
-      if (options.includeSourceURL) {
-        // wraps the source of a file in an `eval`ed string followed by
-        // a `@ sourceURL` declaration.
-        // see http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl
-        // for why this is handy. 
-        out += "eval(" + JSON.stringify(grunt.template.process(options.template, templateData) + "//@ sourceURL=" + filepath) +")";
-      } else {
-        out += grunt.template.process(options.template, templateData);
-      }
-      out += options.separator;
-      return out;
     };
 
-    // Start the processing by expanding all the files provided to the task
-    // iteratre over them calling the finder method defined above.
-    // write out the resulting string the destination.
-    var outStr = grunt.file.expand({nonull: true}, this.file.srcRaw).map(finder, this);
-    grunt.file.write(this.file.dest, outStr.join(''));
+    // kick off the process. Find code sections, combine them
+    // in the correct order by wrapping in the template
+    // which defaults to a functional closure.
+    grunt.file.expand({nonull: true}, this.file.srcRaw).map(finder, this);
+    var outStr = out.map(function(section){
+      var templateData = {
+        data: section
+      };
+
+      if (options.includeSourceURL) {
+        return "eval(" + JSON.stringify(grunt.template.process(options.template, templateData) + "//@ sourceURL=" + section.filepath) +")";
+      } else {
+        return grunt.template.process(options.template, templateData);
+      }
+    }).join(options.separator);
+
+    grunt.file.write(this.file.dest, outStr);
   });
 };

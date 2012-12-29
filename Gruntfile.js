@@ -81,6 +81,11 @@ module.exports = function(grunt) {
         files: {
           'tmp/circular_require_statements' : ['test/fixtures/circular_require_statements.js']
         }
+      },
+      respects_code_order_between_requires: {
+        files: {
+          'tmp/respects_code_order_between_requires': ['test/fixtures/respects_code_order_between_requires.js']
+        }
       }
     },
     jshint: {

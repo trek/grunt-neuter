@@ -1,2 +1,3 @@
-eval("(function() {\nvar a = 5;\n})();//@ sourceURL=test/fixtures/simple_require.js")
-eval("(function() {\n\nvar simple_requires_come_before_here;\n\n})();//@ sourceURL=test/fixtures/simple_require_statements.js")
+eval("(function() {\n\nvar a = 5;\n\n})();//@ sourceURL=test/fixtures/simple_require.js")
+
+eval("(function() {\n\nvar simple_requires_come_before_here;\n\n\n})();//@ sourceURL=test/fixtures/simple_require_statements.js")

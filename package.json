@@ -1,6 +1,6 @@
 {
   "name": "grunt-neuter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Builds source files in the order you require.",
   "main": "Gruntfile.js",
   "scripts": {

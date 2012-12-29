@@ -50,5 +50,13 @@ exports.neuterTests = {
     test.equal(actual, expected, 'recursive require statemants are handled');
 
     test.done();
+  },
+  respects_code_order_between_requires: function(test){
+
+    var actual = grunt.file.read('tmp/respects_code_order_between_requires');
+    var expected = grunt.file.read('test/expected/respects_code_order_between_requires');
+    test.equal(actual, expected, 'code order between requires is respected');
+
+    test.done();
   }
 };

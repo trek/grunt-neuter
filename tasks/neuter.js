@@ -66,19 +66,21 @@ module.exports = function(grunt) {
     // kick off the process. Find code sections, combine them
     // in the correct order by wrapping in the template
     // which defaults to a functional closure.
-    grunt.file.expand({nonull: true}, this.file.srcRaw).map(finder, this);
-    var outStr = out.map(function(section){
-      var templateData = {
-        data: section
-      };
+    this.files.forEach(function(file) {
+      grunt.file.expand({nonull: true}, file.src).map(finder, this);
+      var outStr = out.map(function(section){
+        var templateData = {
+          data: section
+        };
 
-      if (options.includeSourceURL) {
-        return "eval(" + JSON.stringify(grunt.template.process(options.template, templateData) + "//@ sourceURL=" + section.filepath) +")";
-      } else {
-        return grunt.template.process(options.template, templateData);
-      }
-    }).join(options.separator);
+        if (options.includeSourceURL) {
+          return "eval(" + JSON.stringify(grunt.template.process(options.template, templateData) + "//@ sourceURL=" + section.filepath) +")";
+        } else {
+          return grunt.template.process(options.template, templateData);
+        }
+      }).join(options.separator);
 
-    grunt.file.write(this.file.dest, outStr);
+      grunt.file.write(file.dest, outStr);
+    });
   });
 };

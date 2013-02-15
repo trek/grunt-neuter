@@ -44,7 +44,7 @@ exports.neuterTests = {
     test.done();
   },
   circular_require_statements: function(test){
-    
+
     var actual = grunt.file.read('tmp/circular_require_statements');
     var expected = grunt.file.read('test/expected/circular_require_statements');
     test.equal(actual, expected, 'recursive require statemants are handled');

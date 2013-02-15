@@ -40,7 +40,7 @@ Use a neutering task for
   2. Keep intra-project dependency management inline: rather than have to track
      and updated files and their order in a Make/Cake/Rakefile or a JSON object.
 
-  3. Have files separated in debugging, combined in production: When using 
+  3. Have files separated in debugging, combined in production: When using
      good development tools you want to easily map your debugging efforts to
      a specific file, not read through one giant file.
 
@@ -66,7 +66,7 @@ Type: Boolean`
 
 Default: `false`
 
-Includes a the path to your source JavaScript file as `//@ sourceURL="path/to/my/file.js"` for
+Includes the path to your source JavaScript file as `//@ sourceURL="path/to/my/file.js"` for
 [nicer debugging](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl). Note that this wraps your source JavaScript file (as a string) with `eval` and should not be used in prouduction.
 
 ### separator
@@ -74,5 +74,4 @@ Type: `String`
 
 Default: `"\n"`
 
-Neutered files will be joined on this string. If you're post-processing concatenated JavaScript files with a minifier, you may need to use a semicolon `';'` as the separator although the semicolon at the end of the
-template should suffice.
+Neutered files will be joined on this string. If you're post-processing concatenated JavaScript files with a minifier, you may need to use a semicolon `';'` as the separator although the semicolon at the end of the template should suffice.

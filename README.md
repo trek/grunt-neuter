@@ -61,6 +61,13 @@ The wrapper around your code. Defaults to a closure-style function so locally de
 won't leak into the gloabl scope. The text of your source JavaScript file is available as `text`
 within a template.
 
+### filepathTransform
+Type: `Function`
+
+Default: `function(filepath){ return filepath; }`
+
+Specifying a filepath transform allows you to omit said portion of the filepath from your require statements. For example: when using `filepathTransform: function(filepath){ return 'lib/js/' + filepath; }` in your task options, require("lib/js/file.js") can instead be written as require("file.js").
+
 ### includeSourceURL
 Type: Boolean`
 

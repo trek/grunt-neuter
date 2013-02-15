@@ -24,6 +24,7 @@ module.exports = function(grunt) {
     var requireMatcher = /require\([\'||\"](.*)[\'||\"]\)/;
 
     var options = this.options({
+      filepathTransform: function(filepath){ return filepath; },
       template: "(function() {\n\n<%= src %>\n\n})();",
       separator: "\n\n",
       includeSourceURL: false
@@ -53,9 +54,10 @@ module.exports = function(grunt) {
           // if the section is a require statement
           // recursively call find again. Otherwise
           // push the code section onto the buffer.
+          // apply the filepathTransform for matched files.
           var match = requireMatcher.exec(section);
           if (match) {
-            finder(match[1] + '.js');
+            finder(options.filepathTransform(match[1]) + '.js');
           } else {
             out.push({filepath: filepath, src: section});
           }

@@ -48,6 +48,16 @@ module.exports = function(grunt) {
         }
       },
 
+      // Run to test the default simple require options with a filepath transform.
+      filepath_transform_options: {
+        files: {
+          'tmp/simple_require_filepath_transforms' : ['test/fixtures/simple_require_filepath_transforms.js']
+        },
+        options: {
+          filepathTransform: function(filepath){ return 'test/fixtures/' + filepath; }
+        }
+      },
+
       // Run to test the default simple require options.
       custom_separator_options: {
         files: {

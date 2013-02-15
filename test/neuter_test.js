@@ -11,6 +11,14 @@ exports.neuterTests = {
 
     test.done();
   },
+  simple_require_filepath_transforms: function(test) {
+
+    var actual = grunt.file.read('tmp/simple_require_filepath_transforms');
+    var expected = grunt.file.read('test/expected/simple_require_filepath_transforms');
+    test.equal(actual, expected, 'files are combined in correct order');
+
+    test.done();
+  },
   custom_separator_options: function(test){
 
     var actual = grunt.file.read('tmp/custom_separator_options');

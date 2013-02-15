@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     // each file can be required only once.
     var required = [];
 
-    // the bufffer that we appened to over this run. 
+    // the bufffer that we appened to over this run.
     var out = [];
 
     // matches `require('some/path/file');` statements.
@@ -24,6 +24,7 @@ module.exports = function(grunt) {
     var requireMatcher = /require\([\'||\"](.*)[\'||\"]\)/;
 
     var options = this.options({
+      filepathTransform: function(filepath){ return filepath; },
       template: "(function() {\n\n<%= src %>\n\n})();",
       separator: "\n\n",
       includeSourceURL: false
@@ -35,7 +36,7 @@ module.exports = function(grunt) {
         return '';
       }
 
-      // once a file has been required its source will 
+      // once a file has been required its source will
       // never be written to the resulting destination file again.
       if (required.indexOf(filepath) === -1) {
         required.push(filepath);
@@ -45,7 +46,7 @@ module.exports = function(grunt) {
         // or blocks of code.
         var src = grunt.file.read(filepath);
         var sections = src.split(requireSplitter);
-        
+
         // loop through sections appending to out buffer.
         sections.forEach(function(section){
           if (!section.length) { return; }
@@ -53,9 +54,10 @@ module.exports = function(grunt) {
           // if the section is a require statement
           // recursively call find again. Otherwise
           // push the code section onto the buffer.
+          // apply the filepathTransform for matched files.
           var match = requireMatcher.exec(section);
           if (match) {
-            finder(match[1] + '.js');
+            finder(options.filepathTransform(match[1]) + '.js');
           } else {
             out.push({filepath: filepath, src: section});
           }

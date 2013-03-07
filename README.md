@@ -55,10 +55,10 @@ Neuter is based on the [Rake pipline web-filter of the same name](https://github
 ### template
 Type: `String`
 
-Default: `"(function){ <%= text %> })();"`
+Default: `"(function){ {%= src %} })();"`
 
 The wrapper around your code. Defaults to a closure-style function so locally delcared variables
-won't leak into the gloabl scope. The text of your source JavaScript file is available as `text`
+won't leak into the gloabl scope. The text of your source JavaScript file is available as `src`
 within a template.
 
 ### includeSourceURL

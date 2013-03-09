@@ -11,6 +11,14 @@ exports.neuterTests = {
 
     test.done();
   },
+  simple_require_filepath_transforms: function(test) {
+
+    var actual = grunt.file.read('tmp/simple_require_filepath_transforms');
+    var expected = grunt.file.read('test/expected/simple_require_filepath_transforms');
+    test.equal(actual, expected, 'files are combined in correct order');
+
+    test.done();
+  },
   custom_separator_options: function(test){
 
     var actual = grunt.file.read('tmp/custom_separator_options');
@@ -44,7 +52,7 @@ exports.neuterTests = {
     test.done();
   },
   circular_require_statements: function(test){
-    
+
     var actual = grunt.file.read('tmp/circular_require_statements');
     var expected = grunt.file.read('test/expected/circular_require_statements');
     test.equal(actual, expected, 'recursive require statemants are handled');
@@ -59,11 +67,19 @@ exports.neuterTests = {
 
     test.done();
   },
-  can_accept_file_patterns: function(test){
+  accepts_file_patterns: function(test){
 
-    var actual = grunt.file.read('tmp/can_accept_file_patterns');
-    var expected = grunt.file.read('test/expected/can_accept_file_patterns');
+    var actual = grunt.file.read('tmp/accepts_file_patterns');
+    var expected = grunt.file.read('test/expected/accepts_file_patterns');
     test.equal(actual, expected, 'file patterns can be correctly read');
+
+    test.done();
+  },
+  ignores_files_when_told: function(test){
+
+    var actual = grunt.file.read('tmp/ignores_files_when_told');
+    var expected = grunt.file.read('test/expected/ignores_files_when_told');
+    test.equal(actual, expected, 'ignores files when told');
 
     test.done();
   }

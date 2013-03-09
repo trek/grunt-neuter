@@ -14,7 +14,7 @@ grunt task.
 
 When you run
 ```shell
-  grunt 
+  grunt
 ```
 
 from within this project directory, the defualt task will run and
@@ -22,7 +22,7 @@ from within this project directory, the defualt task will run and
   * jshint your code according to the .jshintrc file.
 
   * run the `neuter` config below, which will generate a bunch of files
-    with varying configuration optiones applied (usually by reading a 
+    with varying configuration optiones applied (usually by reading a
     fixture file from `test/fixtures` that incldues require statements)
     writing their output to a tmp directory in this project.
 
@@ -33,7 +33,7 @@ from within this project directory, the defualt task will run and
 
   * if the test executes without error, the `tmp` directory is removed.
     if it failed, you'll see a notice about why and the `tmp` directory
-    will remain for you to inspect. 
+    will remain for you to inspect.
 */
 module.exports = function(grunt) {
 
@@ -45,6 +45,16 @@ module.exports = function(grunt) {
       default_options: {
         files: {
           'tmp/simple_require_statements' : ['test/fixtures/simple_require_statements.js']
+        }
+      },
+
+      // Run to test the default simple require options with a filepath transform.
+      filepath_transform_options: {
+        files: {
+          'tmp/simple_require_filepath_transforms' : ['test/fixtures/simple_require_filepath_transforms.js']
+        },
+        options: {
+          filepathTransform: function(filepath){ return 'test/fixtures/' + filepath; }
         }
       },
 
@@ -69,7 +79,7 @@ module.exports = function(grunt) {
       },
 
       // Run to test that duplicate require statemtns only write a source file to the
-      // destination once. 
+      // destination once.
       duplicate_require_statements: {
         files: {
           'tmp/duplicate_require_statements' : ['test/fixtures/duplicate_require_statements.js']

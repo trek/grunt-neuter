@@ -27,7 +27,14 @@ module.exports = function(grunt) {
       filepathTransform: function(filepath){ return filepath; },
       template: "(function() {\n\n<%= src %>\n\n})();",
       separator: "\n\n",
-      includeSourceURL: false
+      includeSourceURL: false,
+      skipFiles: []
+    });
+
+    // a poor man's Set
+    var skipFiles = {};
+    options.skipFiles.forEach(function(file){
+      skipFiles[file] = true;
     });
 
     var finder = function(filepath){
@@ -41,27 +48,36 @@ module.exports = function(grunt) {
       if (required.indexOf(filepath) === -1) {
         required.push(filepath);
 
-        // read the file and split it into code sections
-        // these will be either require(...) statements
-        // or blocks of code.
         var src = grunt.file.read(filepath);
-        var sections = src.split(requireSplitter);
 
-        // loop through sections appending to out buffer.
-        sections.forEach(function(section){
-          if (!section.length) { return; }
+        // if a file should not be nuetered
+        // it is part of the skipFiles option
+        // and is simply included
+        if (skipFiles[filepath]) {
+          out.push({filepath: filepath, src: src});
+        } else {
+          
+          // split the source into code sections
+          // these will be either require(...) statements
+          // or blocks of code.
+          var sections = src.split(requireSplitter);
 
-          // if the section is a require statement
-          // recursively call find again. Otherwise
-          // push the code section onto the buffer.
-          // apply the filepathTransform for matched files.
-          var match = requireMatcher.exec(section);
-          if (match) {
-            finder(options.filepathTransform(match[1]) + '.js');
-          } else {
-            out.push({filepath: filepath, src: section});
-          }
-        });
+          // loop through sections appending to out buffer.
+          sections.forEach(function(section){
+            if (!section.length) { return; }
+
+            // if the section is a require statement
+            // recursively call find again. Otherwise
+            // push the code section onto the buffer.
+            // apply the filepathTransform for matched files.
+            var match = requireMatcher.exec(section);
+            if (match) {
+              finder(options.filepathTransform(match[1]) + '.js');
+            } else {
+              out.push({filepath: filepath, src: section});
+            }
+          });
+        }
       }
     };
 

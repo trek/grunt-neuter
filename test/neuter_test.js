@@ -74,5 +74,13 @@ exports.neuterTests = {
     test.equal(actual, expected, 'file patterns can be correctly read');
 
     test.done();
+  },
+  ignores_files_when_told: function(test){
+
+    var actual = grunt.file.read('tmp/ignores_files_when_told');
+    var expected = grunt.file.read('test/expected/ignores_files_when_told');
+    test.equal(actual, expected, 'ignores files when told');
+
+    test.done();
   }
 };

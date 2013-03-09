@@ -101,6 +101,14 @@ module.exports = function(grunt) {
         files: {
           'tmp/accepts_file_patterns': ['test/fixtures/glob/*.js']
         }
+      },
+      ignores_files_when_told: {
+        files: {
+          'tmp/ignores_files_when_told': ['test/fixtures/ignores_files_when_told.js']
+        },
+        options: {
+          skipFiles: ['test/fixtures/contains_commonjs_require.js']
+        }
       }
     },
     jshint: {

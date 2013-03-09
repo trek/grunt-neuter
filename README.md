@@ -82,3 +82,12 @@ Type: `String`
 Default: `"\n"`
 
 Neutered files will be joined on this string. If you're post-processing concatenated JavaScript files with a minifier, you may need to use a semicolon `';'` as the separator although the semicolon at the end of the template should suffice.
+
+### skipFiles
+Type: `Array`
+
+Default: `[]`
+
+A list of files being required that should not be checked for further require statements.
+Useful for libraries that support other module building methods and leave their requires
+around in a way that isn't meaningful to neutering.

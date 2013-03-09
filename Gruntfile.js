@@ -109,7 +109,20 @@ module.exports = function(grunt) {
         options: {
           skipFiles: ['test/fixtures/contains_commonjs_require.js']
         }
+      },
+      do_not_replace_requires_in_statements: {
+        files: {
+          'tmp/do_not_replace_requires_in_statements': ['test/fixtures/do_not_replace_requires_in_statements.js']
+        }
+      },
+      
+      // test that single line commented out require statements are not loaded
+      comment_out_require: {
+        files: {
+          'tmp/comment_out_require': ['test/fixtures/comment_out_require.js']
+        }
       }
+      
     },
     jshint: {
       all: [

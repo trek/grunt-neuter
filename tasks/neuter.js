@@ -23,9 +23,12 @@ module.exports = function(grunt) {
     var requireSplitter = /(require\([\'||\"].*[\'||\"]\));+\n*/;
     var requireMatcher = /require\([\'||\"](.*)[\'||\"]\)/;
 
+    // add mustache style delimiters
+    grunt.template.addDelimiters('neuter', '{%', '%}');
+    
     var options = this.options({
       filepathTransform: function(filepath){ return filepath; },
-      template: "(function() {\n\n<%= src %>\n\n})();",
+      template: "(function() {\n\n{%= src %}\n\n})();",
       separator: "\n\n",
       includeSourceURL: false,
       skipFiles: []
@@ -88,7 +91,8 @@ module.exports = function(grunt) {
       grunt.file.expand({nonull: true}, file.src).map(finder, this);
       var outStr = out.map(function(section){
         var templateData = {
-          data: section
+          data: section,
+          delimiters:'neuter'
         };
 
         if (options.includeSourceURL) {

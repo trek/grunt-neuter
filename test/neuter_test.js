@@ -67,10 +67,10 @@ exports.neuterTests = {
 
     test.done();
   },
-  can_accept_file_patterns: function(test){
+  accepts_file_patterns: function(test){
 
-    var actual = grunt.file.read('tmp/can_accept_file_patterns');
-    var expected = grunt.file.read('test/expected/can_accept_file_patterns');
+    var actual = grunt.file.read('tmp/accepts_file_patterns');
+    var expected = grunt.file.read('test/expected/accepts_file_patterns');
     test.equal(actual, expected, 'file patterns can be correctly read');
 
     test.done();

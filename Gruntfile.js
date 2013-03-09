@@ -97,9 +97,9 @@ module.exports = function(grunt) {
           'tmp/respects_code_order_between_requires': ['test/fixtures/respects_code_order_between_requires.js']
         }
       },
-      can_accept_file_patterns: {
+      accepts_file_patterns: {
         files: {
-          'tmp/can_accept_file_patterns': ['test/fixtures/glob/*.js']
+          'tmp/accepts_file_patterns': ['test/fixtures/glob/*.js']
         }
       }
     },

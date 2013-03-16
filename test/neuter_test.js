@@ -75,6 +75,7 @@ exports.neuterTests = {
 
     test.done();
   },
+
   ignores_files_when_told: function(test){
 
     var actual = grunt.file.read('tmp/ignores_files_when_told');
@@ -82,5 +83,23 @@ exports.neuterTests = {
     test.equal(actual, expected, 'ignores files when told');
 
     test.done();
+  },
+  
+  do_not_replace_requires_in_statements: function(test){
+    
+    var actual = grunt.file.read('tmp/do_not_replace_requires_in_statements');
+    var expected = grunt.file.read('test/expected/do_not_replace_requires_in_statements');
+    test.equal(actual, expected, 'require() statements in javascript statements are ignored');
+
+    test.done();
+  },
+  comment_out_require: function(test){
+    
+    var actual = grunt.file.read('tmp/comment_out_require');
+    var expected = grunt.file.read('test/expected/comment_out_require');
+    test.equal(actual, expected, 'single line commented require() statements are ignored');
+
+    test.done();
   }
+  
 };

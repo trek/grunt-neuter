@@ -57,8 +57,8 @@ Type: `String`
 
 Default: `"(function){ {%= src %} })();"`
 
-The wrapper around your code. Defaults to a closure-style function so locally delcared variables
-won't leak into the gloabl scope. The text of your source JavaScript file is available as `src`
+The wrapper around your code. Defaults to a closure-style function so locally declared variables
+won't leak into the global scope. The text of your source JavaScript file is available as `src`
 within a template.
 
 ### filepathTransform

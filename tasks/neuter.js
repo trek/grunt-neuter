@@ -7,6 +7,8 @@
 
 'use strict';
 
+var glob = require("glob");
+
 module.exports = function(grunt) {
   grunt.registerMultiTask('neuter', 'Concatenate files in the order you require', function() {
     // track required files for this task.
@@ -40,48 +42,51 @@ module.exports = function(grunt) {
       skipFiles[file] = true;
     });
 
-    var finder = function(filepath){
-      if (!grunt.file.exists(filepath)) {
-        grunt.log.error('Source file "' + filepath + '" not found.');
+    var finder = function(globPath){
+      var files = glob.sync(globPath, {});
+      if (!files) {
+        grunt.log.error('No files found at "' + globPath + '".');
         return '';
       }
+      files.forEach(function(filepath) {
 
-      // once a file has been required its source will
-      // never be written to the resulting destination file again.
-      if (required.indexOf(filepath) === -1) {
-        required.push(filepath);
+        // once a file has been required its source will
+        // never be written to the resulting destination file again.
+        if (required.indexOf(filepath) === -1) {
+          required.push(filepath);
 
-        var src = grunt.file.read(filepath);
+          var src = grunt.file.read(filepath);
 
-        // if a file should not be nuetered
-        // it is part of the skipFiles option
-        // and is simply included
-        if (skipFiles[filepath]) {
-          out.push({filepath: filepath, src: src});
-        } else {
-          
-          // split the source into code sections
-          // these will be either require(...) statements
-          // or blocks of code.
-          var sections = src.split(requireSplitter);
+          // if a file should not be nuetered
+          // it is part of the skipFiles option
+          // and is simply included
+          if (skipFiles[filepath]) {
+            out.push({filepath: filepath, src: src});
+          } else {
+            
+            // split the source into code sections
+            // these will be either require(...) statements
+            // or blocks of code.
+            var sections = src.split(requireSplitter);
 
-          // loop through sections appending to out buffer.
-          sections.forEach(function(section){
-            if (!section.length) { return; }
+            // loop through sections appending to out buffer.
+            sections.forEach(function(section){
+              if (!section.length) { return; }
 
-            // if the section is a require statement
-            // recursively call find again. Otherwise
-            // push the code section onto the buffer.
-            // apply the filepathTransform for matched files.
-            var match = requireMatcher.exec(section);
-            if (match) {
-              finder(options.filepathTransform(match[1]) + '.js');
-            } else {
-              out.push({filepath: filepath, src: section});
-            }
-          });
+              // if the section is a require statement
+              // recursively call find again. Otherwise
+              // push the code section onto the buffer.
+              // apply the filepathTransform for matched files.
+              var match = requireMatcher.exec(section);
+              if (match) {
+                finder(options.filepathTransform(match[1]) + '.js');
+              } else {
+                out.push({filepath: filepath, src: section});
+              }
+            });
+          }
         }
-      }
+      });
     };
 
     // kick off the process. Find code sections, combine them

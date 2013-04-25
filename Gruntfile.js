@@ -121,6 +121,13 @@ module.exports = function(grunt) {
         files: {
           'tmp/comment_out_require': ['test/fixtures/comment_out_require.js']
         }
+      },
+
+      // test that a file can require a glob
+      glob_require: {
+        files: {
+          'tmp/glob_require': ['test/fixtures/glob_require.js']
+        }
       }
       
     },

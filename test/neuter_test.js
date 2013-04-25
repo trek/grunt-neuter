@@ -100,6 +100,14 @@ exports.neuterTests = {
     test.equal(actual, expected, 'single line commented require() statements are ignored');
 
     test.done();
+  },
+
+  glob_require: function(test){
+    var actual = grunt.file.read('tmp/glob_require');
+    var expected = grunt.file.read('test/expected/glob_require');
+    test.equal(actual, expected, 'require("glob/*") requires all files in that directory');
+
+    test.done();
   }
   
 };

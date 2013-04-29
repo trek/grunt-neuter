@@ -128,8 +128,12 @@ module.exports = function(grunt) {
         files: {
           'tmp/glob_require': ['test/fixtures/glob_require.js']
         }
+      },
+      spaces_allowed_within_require_statement: {
+        files: {
+          'tmp/spaces_allowed_within_require_statement': ['test/fixtures/spaces_allowed_within_require_statement.js']
+        }
       }
-      
     },
     jshint: {
       all: [

@@ -108,6 +108,14 @@ exports.neuterTests = {
     test.equal(actual, expected, 'require("glob/*") requires all files in that directory');
 
     test.done();
+  },
+
+  spaces_allowed_within_require_statement: function(test){
+    var actual = grunt.file.read('tmp/spaces_allowed_within_require_statement');
+    var expected = grunt.file.read('test/expected/spaces_allowed_within_require_statement');
+    test.equal(actual, expected, 'spaces work within require statements');
+
+    test.done();
   }
   
 };

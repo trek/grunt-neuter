@@ -15,6 +15,9 @@
   ],
   "author": "Trek Glowacki <trek.glowacki@gamil.com>",
   "license": "MIT",
+  "dependencies": {
+		"glob": "~3.2.1"
+  },
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-contrib-jshint": "~0.2.0",

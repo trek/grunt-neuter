@@ -22,8 +22,8 @@ module.exports = function(grunt) {
 
     // matches `require('some/path/file');` statements.
     // no need to include a .js as this will be appended for you.
-    var requireSplitter = /^\s*(require\(\s*[\'||\"].*[\'||\"]\s*\));+\n*/m;
-    var requireMatcher = /^require\(\s*[\'||\"](.*)[\'||\"]\s*\)/m;
+    var requireSplitter = /^\s*(require\(\s*[\'||\"].*[\'||\"]\s*\));*\n*/m;
+    var requireMatcher = /^require\(\s*[\'||\"](.*?)(?:\.js)?[\'||\"]\s*\)/m;
     
     // add mustache style delimiters
     grunt.template.addDelimiters('neuter', '{%', '%}');

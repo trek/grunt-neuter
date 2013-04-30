@@ -1,4 +1,5 @@
-# grunt-neuter
+# grunt-neuter [![Build Status](https://travis-ci.org/trek/grunt-neuter.png)](https://travis-ci.org/trek/grunt-neuter)
+
 
 > Concatenate files in the order you `require`.
 

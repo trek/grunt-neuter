@@ -116,6 +116,20 @@ exports.neuterTests = {
     test.equal(actual, expected, 'spaces work within require statements');
 
     test.done();
+  },
+  optional_semicolons: function(test){
+    var actual = grunt.file.read('tmp/optional_semicolons');
+    var expected = grunt.file.read('test/expected/optional_semicolons');
+    test.equal(actual, expected, 'semicolons are optional as long as there\'s a newline');
+
+    test.done();
+  },
+  optional_dotjs: function(test){
+    var actual = grunt.file.read('tmp/optional_dotjs');
+    var expected = grunt.file.read('test/expected/optional_dotjs');
+    test.equal(actual, expected, 'the .js extension is optional');
+
+    test.done();
   }
   
 };

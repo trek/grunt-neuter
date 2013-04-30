@@ -133,6 +133,16 @@ module.exports = function(grunt) {
         files: {
           'tmp/spaces_allowed_within_require_statement': ['test/fixtures/spaces_allowed_within_require_statement.js']
         }
+      },
+      optional_semicolons: {
+        files: {
+          'tmp/optional_semicolons': ['test/fixtures/optional_semicolons.js']
+        }
+      },
+      optional_dotjs: {
+        files: {
+          'tmp/optional_dotjs': ['test/fixtures/optional_dotjs.js']
+        }
       }
     },
     jshint: {

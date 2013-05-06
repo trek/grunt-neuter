@@ -68,16 +68,6 @@ module.exports = function(grunt) {
         }
       },
 
-      // Run to test the inclusion of source urls.
-      custom_source_url_inclusion_option: {
-        files: {
-          'tmp/custom_source_url_inclusion_option' : ['test/fixtures/simple_require_statements.js']
-        },
-        options: {
-          includeSourceURL: true
-        }
-      },
-
       // Run to test that duplicate require statemtns only write a source file to the
       // destination once.
       duplicate_require_statements: {
@@ -142,6 +132,14 @@ module.exports = function(grunt) {
       optional_dotjs: {
         files: {
           'tmp/optional_dotjs': ['test/fixtures/optional_dotjs.js']
+        }
+      },
+      source_maps: {
+        files: {
+          'tmp/source_maps': ['test/fixtures/glob_require.js']
+        },
+        options: {
+          includeSourceMap: true
         }
       }
     },

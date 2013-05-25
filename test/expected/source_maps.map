@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "source_maps",
+  "sources": [
+    "test/fixtures/require_glob/a.js",
+    "test/fixtures/require_glob/b.js"
+  ],
+  "names": [],
+  "mappings": ";;;AACA;A;;;;;;ACAA;A"
+}

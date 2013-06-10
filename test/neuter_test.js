@@ -27,22 +27,6 @@ exports.neuterTests = {
 
     test.done();
   },
-  custom_source_url_inclusion_option: function(test){
-
-    var actual = grunt.file.read('tmp/custom_source_url_inclusion_option');
-    var expected = grunt.file.read('test/expected/custom_source_url_inclusion_option');
-    test.equal(actual, expected, '@ sourceURL can be included for debugging');
-
-    test.done();
-  },
-  requires_are_only_included_once: function(test){
-
-    var actual = grunt.file.read('tmp/custom_source_url_inclusion_option');
-    var expected = grunt.file.read('test/expected/custom_source_url_inclusion_option');
-    test.equal(actual, expected, '@ sourceURL can be included for debugging');
-
-    test.done();
-  },
   duplicate_require_statements: function(test){
 
     var actual = grunt.file.read('tmp/duplicate_require_statements');
@@ -84,9 +68,9 @@ exports.neuterTests = {
 
     test.done();
   },
-  
+
   do_not_replace_requires_in_statements: function(test){
-    
+
     var actual = grunt.file.read('tmp/do_not_replace_requires_in_statements');
     var expected = grunt.file.read('test/expected/do_not_replace_requires_in_statements');
     test.equal(actual, expected, 'require() statements in javascript statements are ignored');
@@ -94,7 +78,7 @@ exports.neuterTests = {
     test.done();
   },
   comment_out_require: function(test){
-    
+
     var actual = grunt.file.read('tmp/comment_out_require');
     var expected = grunt.file.read('test/expected/comment_out_require');
     test.equal(actual, expected, 'single line commented require() statements are ignored');
@@ -130,6 +114,17 @@ exports.neuterTests = {
     test.equal(actual, expected, 'the .js extension is optional');
 
     test.done();
+  },
+
+  source_maps: function(test) {
+    var actualJs = grunt.file.read('tmp/source_maps');
+    var actualMap = grunt.file.read('tmp/source_maps.map');
+    var expectedJs = grunt.file.read('test/expected/source_maps');
+    var expectedMap = grunt.file.read('test/expected/source_maps.map');
+
+    test.equal(actualJs, expectedJs, 'the js includes sourceMap output');
+    test.equal(actualMap, expectedMap, 'the map is generated');
+
+    test.done();
   }
-  
 };

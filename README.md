@@ -3,8 +3,6 @@
 
 > Concatenate files in the order you `require`.
 
-_Note that this plugin has not yet been released, and only works with the latest bleeding-edge, in-development version of grunt. See the [When will I be able to use in-development feature 'X'?](https://github.com/gruntjs/grunt/wiki/Frequently-Asked-Questions) FAQ entry for more information._
-
 ## Getting Started
 If you haven't used [grunt][] before, be sure to check out the [Getting Started][] guide, as it explains how to create a [gruntfile][Getting Started] as well as install and use grunt plugins. Once you're familiar with that process, install this plugin with this command:
 
@@ -51,6 +49,38 @@ Use a neutering task for
 
 Neuter is based on the [Rake pipline web-filter of the same name](https://github.com/wycats/rake-pipeline-web-filters)
 
+## Example
+Given the following files:
+
+`a.js`
+```javascript
+require('b');
+
+var myVariable = 'hello';
+```
+
+`b.js`
+```
+var variableFromB = 'b';
+window.availableEverywhere = true;
+```
+
+Resulting output would be
+
+```
+(function(){
+  var variableFromB = 'b';
+  window.availableEverywhere = true;
+})();
+
+(function(){
+
+  var myVariable = 'hello';
+})();
+```
+
+
+
 ### Options
 
 ### template
@@ -70,7 +100,7 @@ Default: `function(filepath){ return filepath; }`
 Specifying a filepath transform allows you to omit said portion of the filepath from your require statements. For example: when using `filepathTransform: function(filepath){ return 'lib/js/' + filepath; }` in your task options, require("lib/js/file.js") can instead be written as require("file.js").
 
 ### includeSourceURL
-Type: Boolean`
+Type: `Boolean`
 
 Default: `false`
 

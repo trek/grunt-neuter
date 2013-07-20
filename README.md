@@ -79,6 +79,17 @@ Resulting output would be
 })();
 ```
 
+## Example Gruntfile Use
+```
+grunt.initConfig({
+  neuter: {
+    application: {
+      'tmp/destinationFile.js': 'a/index.js'
+    }
+  }
+});
+```
+
 
 
 ### Options

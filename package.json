@@ -16,8 +16,8 @@
   "author": "Trek Glowacki <trek.glowacki@gamil.com>",
   "license": "MIT",
   "dependencies": {
-		"glob": "~3.2.1",
-		"source-map": "~0.1.22"
+    "glob": "~3.2.3",
+    "source-map": "~0.1.22"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

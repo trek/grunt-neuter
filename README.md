@@ -84,10 +84,21 @@ Resulting output would be
 grunt.initConfig({
   neuter: {
     application: {
-      'tmp/destinationFile.js': 'a/index.js'
+      src: 'tmp/application.js',
+      dest: 'app/index.js' 
     }
   }
 });
+
+or
+
+```
+grunt.initConfig({
+  neuter: {
+      'tmp/application.js' :'app/index.js'
+  }
+});
+```
 ```
 
 

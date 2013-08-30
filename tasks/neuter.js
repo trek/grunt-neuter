@@ -38,8 +38,20 @@ module.exports = function(grunt) {
       template: "(function() {\n\n{%= src %}\n\n})();",
       separator: "\n\n",
       includeSourceMap: false,
-      skipFiles: []
+      skipFiles: [],
+      process: false
     });
+
+    // process, but with no data
+    if (options.process === true) {
+      options.process = {};
+    }
+
+    // default to using 'neuter' style templates for processing
+    // (this avoids issues with requiring underscore or lodash)
+    if (grunt.util.kindOf(options.process) === 'object') {
+      options.process.delimiters = options.process.delimiters || 'neuter';
+    }
 
     // a poor man's Set
     var skipFiles = {};
@@ -61,6 +73,13 @@ module.exports = function(grunt) {
           required.push(filepath);
 
           var src = grunt.file.read(filepath);
+
+          // process file as a template if specified
+          if (typeof options.process === 'function') {
+            src = options.process(src, filepath);
+          } else if (options.process) {
+            src = grunt.template.process(src, options.process);
+          }
 
           // if a file should not be nuetered
           // it is part of the skipFiles option

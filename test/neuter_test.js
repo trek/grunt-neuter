@@ -126,5 +126,21 @@ exports.neuterTests = {
     test.equal(actualMap, expectedMap, 'the map is generated');
 
     test.done();
+  },
+
+  process_as_template: function(test) {
+    var actual = grunt.file.read('tmp/process_as_template');
+    var expected = grunt.file.read('test/expected/process_as_template');
+    test.equal(actual, expected, 'files are processed as templates');
+
+    test.done();
+  },
+
+  process_with_function: function(test) {
+    var actual = grunt.file.read('tmp/process_with_function');
+    var expected = grunt.file.read('test/expected/process_with_function');
+    test.equal(actual, expected, 'files are processed with a function');
+
+    test.done();
   }
 };

@@ -85,12 +85,15 @@ grunt.initConfig({
   neuter: {
     application: {
       src: 'tmp/application.js',
-      dest: 'app/index.js' 
+      dest: 'app/index.js'
     }
   }
 });
 
+```
+
 or
+
 
 ```
 grunt.initConfig({
@@ -98,7 +101,6 @@ grunt.initConfig({
       'tmp/application.js' :'app/index.js'
   }
 });
-```
 ```
 
 

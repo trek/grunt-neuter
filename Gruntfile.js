@@ -141,6 +141,29 @@ module.exports = function(grunt) {
         options: {
           includeSourceMap: true
         }
+      },
+      process_as_template: {
+        files: {
+          'tmp/process_as_template': ['test/fixtures/process_as_template.js']
+        },
+        options: {
+          process: {
+            data: {
+              foo: 5,
+              bar: 'baz'
+            }
+          }
+        }
+      },
+      process_with_function: {
+        files: {
+          'tmp/process_with_function': ['test/fixtures/simple_require.js']
+        },
+        options: {
+          process: function(src, filepath) {
+            return '// Source for: ' + filepath + '\n' + src;
+          }
+        }
       }
     },
     jshint: {

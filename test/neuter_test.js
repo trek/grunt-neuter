@@ -19,6 +19,30 @@ exports.neuterTests = {
 
     test.done();
   },
+  simple_basepath_options: function(test) {
+
+    var actual = grunt.file.read('tmp/simple_basepath_options');
+    var expected = grunt.file.read('test/expected/simple_require_filepath_transforms');
+    test.equal(actual, expected, 'files are correctly combined');
+
+    test.done();
+  },
+  relative_require_statements: function(test) {
+
+    var actual = grunt.file.read('tmp/relative_require_statements');
+    var expected = grunt.file.read('test/expected/relative_require_statements');
+    test.equal(actual, expected, 'files are correctly combined');
+
+    test.done();
+  },
+  relative_requires_with_basepath: function(test) {
+
+    var actual = grunt.file.read('tmp/relative_requires_with_basepath');
+    var expected = grunt.file.read('test/expected/relative_requires_with_basepath');
+    test.equal(actual, expected, 'files are correctly combined');
+
+    test.done();
+  },
   custom_separator_options: function(test){
 
     var actual = grunt.file.read('tmp/custom_separator_options');

@@ -34,6 +34,7 @@ module.exports = function(grunt) {
     grunt.template.addDelimiters('neuter', '{%', '%}');
 
     var options = this.options({
+      basePath: '',
       filepathTransform: function(filepath){ return filepath; },
       template: "(function() {\n\n{%= src %}\n\n})();",
       separator: "\n\n",
@@ -66,6 +67,13 @@ module.exports = function(grunt) {
         return '';
       }
       files.forEach(function(filepath) {
+        // save the file's directory without the 'basePath' prefix
+        var dirname = (path.dirname(filepath) + '/').replace(options.basePath, '');
+
+        // create an absolute path to the file and prepend the 'basePath'
+        var normalizePath = function(path) {
+          return options.basePath + path.replace(/^\.\//, dirname) + '.js';
+        };
 
         // once a file has been required its source will
         // never be written to the resulting destination file again.
@@ -102,7 +110,7 @@ module.exports = function(grunt) {
               // apply the filepathTransform for matched files.
               var match = requireMatcher.exec(section);
               if (match) {
-                finder(options.filepathTransform(match[1]) + '.js');
+                finder(options.filepathTransform(normalizePath(match[1]), dirname));
               } else {
                 out.push({filepath: filepath, src: section});
               }

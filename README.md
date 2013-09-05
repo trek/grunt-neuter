@@ -60,14 +60,14 @@ var myVariable = 'hello';
 ```
 
 `b.js`
-```
+```javascript
 var variableFromB = 'b';
 window.availableEverywhere = true;
 ```
 
 Resulting output would be
 
-```
+```javascript
 (function(){
   var variableFromB = 'b';
   window.availableEverywhere = true;
@@ -79,8 +79,50 @@ Resulting output would be
 })();
 ```
 
-## Example Gruntfile Use
+## Relative Paths
+Relative paths using a dot to indicate the file's current directory are valid as well:
+
+`a.js`
+```javascript
+require('dir/b');
+
+var variableFromA = 'a';
 ```
+
+`dir/b.js`
+```javascript
+require('./c');
+
+var variableFromB = 'b';
+```
+
+`dir/c.js`
+```javascript
+var variableFromC = 'c';
+```
+
+Outputs
+
+```javascript
+(function(){
+  var variableFromC = 'c';
+})();
+
+(function(){
+
+  var variableFromB = 'b';
+})();
+
+(function(){
+
+  var variableFromA = 'a';
+})();
+```
+
+Note that directory traversal using `../` is **not** supported.
+
+## Example Gruntfile Use
+```javascript
 grunt.initConfig({
   neuter: {
     application: {
@@ -89,13 +131,11 @@ grunt.initConfig({
     }
   }
 });
-
 ```
 
 or
 
-
-```
+```javascript
 grunt.initConfig({
   neuter: {
       'tmp/application.js' :'app/index.js'
@@ -116,12 +156,19 @@ The wrapper around your code. Defaults to a closure-style function so locally de
 won't leak into the global scope. The text of your source JavaScript file is available as `src`
 within a template.
 
+### basePath
+Type: `String`
+
+Default: `""`
+
+Specifying a base path allows you to omit said portion of the filepath from your require statements. For example: when using `basePath: "lib/js/"` in your task options, `require("lib/js/file.js");` can instead be written as `require("file.js");`. Note that the trailing slash *must* be included.
+
 ### filepathTransform
 Type: `Function`
 
 Default: `function(filepath){ return filepath; }`
 
-Specifying a filepath transform allows you to omit said portion of the filepath from your require statements. For example: when using `filepathTransform: function(filepath){ return 'lib/js/' + filepath; }` in your task options, require("lib/js/file.js") can instead be written as require("file.js").
+Specifying a filepath transform allows you to control the path to the file that actually gets concatenated. For example, when using `filepathTransform: function(filepath){ return 'lib/js/' + filepath; }` in your task options, `require("lib/js/file.js");` can instead be written as `require("file.js");` (This achieves the same result as specifying `basePath: "lib/js/"`). When used in conjunction with the `basePath` option, the base path will be prepended to the `filepath` argument and a second argument will be provided that is the directory of the file **without** the `basePath`.
 
 ### includeSourceURL
 Type: `Boolean`

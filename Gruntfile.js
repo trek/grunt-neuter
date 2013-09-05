@@ -58,6 +58,34 @@ module.exports = function(grunt) {
         }
       },
 
+      // Run to test the basePath option.
+      simple_basepath_options: {
+        // NOTE: this uses the filepath transform fixture because it performs the same operation
+        files: {
+          'tmp/simple_basepath_options' : ['test/fixtures/simple_require_filepath_transforms.js']
+        },
+        options: {
+          basePath: 'test/fixtures/'
+        }
+      },
+
+      // Run to test relative require statements.
+      relative_require_statements: {
+        files: {
+          'tmp/relative_require_statements' : ['test/fixtures/relative_require_statements.js']
+        }
+      },
+
+      // Run to test relative require statements in conjunction with the basePath option
+      relative_requires_with_basepath: {
+        files: {
+          'tmp/relative_requires_with_basepath' : ['test/fixtures/relative_requires_with_basepath.js'],
+        },
+        options: {
+          basePath: 'test/fixtures/'
+        }
+      },
+
       // Run to test the default simple require options.
       custom_separator_options: {
         files: {

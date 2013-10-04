@@ -127,6 +127,9 @@ module.exports = function(grunt) {
 		// source map support adapted from Koji NAKAMURA's grunt-concat-sourcemap
 		// https://github.com/kozy4324/grunt-concat-sourcemap
     this.files.forEach(function(file) {
+      // Reset output buffer between files
+      out.length = 0;
+
       grunt.file.expand({nonull: true}, file.src).map(finder, this);
 
 			var sourceNode = new SourceNode(null, null, null);

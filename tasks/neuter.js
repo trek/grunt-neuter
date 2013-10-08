@@ -62,7 +62,7 @@ module.exports = function(grunt) {
 
     var finder = function(globPath){
       var files = glob.sync(globPath, {});
-      if (!files) {
+      if (!files || !files.length) {
         grunt.log.error('No files found at "' + globPath + '".');
         return '';
       }
@@ -127,6 +127,9 @@ module.exports = function(grunt) {
 		// source map support adapted from Koji NAKAMURA's grunt-concat-sourcemap
 		// https://github.com/kozy4324/grunt-concat-sourcemap
     this.files.forEach(function(file) {
+      // Reset output buffer between files
+      out.length = 0;
+
       grunt.file.expand({nonull: true}, file.src).map(finder, this);
 
 			var sourceNode = new SourceNode(null, null, null);

@@ -62,7 +62,7 @@ module.exports = function(grunt) {
 
     var finder = function(globPath){
       var files = glob.sync(globPath, {});
-      if (!files) {
+      if (!files || !files.length) {
         grunt.log.error('No files found at "' + globPath + '".');
         return '';
       }

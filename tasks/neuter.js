@@ -39,6 +39,7 @@ module.exports = function(grunt) {
       template: "(function() {\n\n{%= src %}\n\n})();",
       separator: "\n\n",
       includeSourceMap: false,
+      sourceRoot: '',
       skipFiles: [],
       process: false
     });

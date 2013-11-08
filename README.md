@@ -170,13 +170,20 @@ Default: `function(filepath){ return filepath; }`
 
 Specifying a filepath transform allows you to control the path to the file that actually gets concatenated. For example, when using `filepathTransform: function(filepath){ return 'lib/js/' + filepath; }` in your task options, `require("lib/js/file.js");` can instead be written as `require("file.js");` (This achieves the same result as specifying `basePath: "lib/js/"`). When used in conjunction with the `basePath` option, the base path will be prepended to the `filepath` argument and a second argument will be provided that is the directory of the file **without** the `basePath`.
 
-### includeSourceURL
+### includeSourceMap
 Type: `Boolean`
 
 Default: `false`
 
 Includes the path to your source JavaScript file as `//@ sourceURL="path/to/my/file.js"` for
-[nicer debugging](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl). Note that this wraps your source JavaScript file (as a string) with `eval` and should not be used in prouduction.
+[nicer debugging](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl).
+
+### sourceRoot
+Type: `String`
+
+Default: `""`
+
+The path to prepend to all source files in the source map. This option is only used in conjunction with the `includeSourceMap` option.
 
 ### separator
 Type: `String`

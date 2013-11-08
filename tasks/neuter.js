@@ -180,7 +180,7 @@ module.exports = function(grunt) {
 
 			if (options.includeSourceMap) {
 				var mapFilePath = file.dest.split('/').pop() + '.map';
-				sourceNode.add('//@ sourceMappingURL=' + mapFilePath);
+				sourceNode.add('//# sourceMappingURL=' + mapFilePath);
 			}
 
 			var codeMap = sourceNode.toStringWithSourceMap({

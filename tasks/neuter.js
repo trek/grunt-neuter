@@ -81,6 +81,7 @@ module.exports = function(grunt) {
           required.push(filepath);
 
           var src = grunt.file.read(filepath);
+          var fileOffset = 1;
 
           // process file as a template if specified
           if (typeof options.process === 'function') {
@@ -89,11 +90,11 @@ module.exports = function(grunt) {
             src = grunt.template.process(src, options.process);
           }
 
-          // if a file should not be nuetered
+          // if a file should not be neutered
           // it is part of the skipFiles option
           // and is simply included
           if (skipFiles[filepath]) {
-            out.push({filepath: filepath, src: src});
+            out.push({filepath: filepath, src: src, start: fileOffset});
           } else {
             // split the source into code sections
             // these will be either require(...) statements
@@ -110,10 +111,15 @@ module.exports = function(grunt) {
               // apply the filepathTransform for matched files.
               var match = requireMatcher.exec(section);
               if (match) {
-                finder(options.filepathTransform(normalizePath(match[1]), dirname));
+                var normalizedPath = normalizePath(match[1]);
+                finder(options.filepathTransform(normalizedPath, dirname));
+                if (skipFiles[normalizedPath]) {
+                  fileOffset = fileOffset - 1;
+                }
               } else {
-                out.push({filepath: filepath, src: section});
+                out.push({filepath: filepath, src: section, start: fileOffset});
               }
+              fileOffset = fileOffset + section.split("\n").length;
             });
           }
         }
@@ -124,22 +130,23 @@ module.exports = function(grunt) {
     // in the correct order by wrapping in the template
     // which defaults to a functional closure.
 
-		// source map support adapted from Koji NAKAMURA's grunt-concat-sourcemap
-		// https://github.com/kozy4324/grunt-concat-sourcemap
+    // source map support adapted from Koji NAKAMURA's grunt-concat-sourcemap
+    // https://github.com/kozy4324/grunt-concat-sourcemap
     this.files.forEach(function(file) {
       // Reset output buffer between files
       out.length = 0;
 
       grunt.file.expand({nonull: true}, file.src).map(finder, this);
 
-			var sourceNode = new SourceNode(null, null, null);
+      var sourceNode = new SourceNode(null, null, null);
 
-			out = out.map(function(section) {
-				return {
-					src: grunt.template.process(options.template, {data: section, delimiters: 'neuter'}),
-					filepath: section.filepath
-				};
-			});
+      out = out.map(function(section) {
+        return {
+          src: grunt.template.process(options.template, {data: section, delimiters: 'neuter'}),
+          filepath: section.filepath,
+          start: section.start
+        };
+      });
 
       // test if template block has newlines to offset against
       var m, n;
@@ -150,52 +157,52 @@ module.exports = function(grunt) {
         var afterOffset = n[1].split("\n").length - 1;
       }
 
-			for (var i = 0; i < out.length; i++) {
-				var src = out[i].src;
+      for (var i = 0; i < out.length; i++) {
+        var src = out[i].src;
 
-				// split on newline and re-add
-				var chunks = src.split('\n');
-				for (var j=0; j < chunks.length - 1; j++) {
-					chunks[j] = chunks[j] + '\n';
-				}
+        // split on newline and re-add
+        var chunks = src.split('\n');
+        for (var j=0; j < chunks.length - 1; j++) {
+          chunks[j] = chunks[j] + '\n';
+        }
 
         // Lines that map to their original file are added as SourceNodes
         // (with line data). Others are added as dataless chunks.
-        for (var k=0; k < chunks.length; k++) {
-          var line = chunks[k];
-          if (k > beforeOffset && k < chunks.length - afterOffset) {
-            sourceNode.add(new SourceNode(k + 1 - beforeOffset, 0, out[i].filepath, line));
-          }
-          else {
+        var offset = out[i].start;
+        chunks.forEach(function (line, k) {
+          if (k >= beforeOffset && k < chunks.length - afterOffset) {
+            sourceNode.add(new SourceNode(offset, 0, out[i].filepath, line));
+            offset++;
+          } else {
             sourceNode.add(line);
           }
-				};
+        });
 
         // If this isn't the last file, add the separator as a dataless
         // chunk.
-				if (i != out.length - 1) {
-					sourceNode.add(options.separator);
-				}
-			}
+        if (i != out.length - 1) {
+          sourceNode.add(options.separator);
+        }
+      }
 
-			if (options.includeSourceMap) {
-				var mapFilePath = file.dest.split('/').pop() + '.map';
-				sourceNode.add('//@ sourceMappingURL=' + mapFilePath);
-			}
+      if (options.includeSourceMap) {
+        var mapFilePath = file.dest.split('/').pop() + '.map';
+        sourceNode.add('//@ sourceMappingURL=' + mapFilePath);
+      }
 
-			var codeMap = sourceNode.toStringWithSourceMap({
-				file: file.dest,
-				sourceRoot: options.sourceRoot
-			});
+      var codeMap = sourceNode.toStringWithSourceMap({
+        file: file.dest,
+        sourceRoot: options.sourceRoot
+      });
 
-			grunt.file.write(file.dest, codeMap.code);
+      grunt.file.write(file.dest, codeMap.code);
 
-			if (options.includeSourceMap) {
-				var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(codeMap.map.toJSON()));
-				var newSourceMap = generator.toJSON();
-				newSourceMap.file = path.basename(newSourceMap.file);
-				grunt.file.write(file.dest + ".map", JSON.stringify(newSourceMap, null, '  '));
-			}
+      if (options.includeSourceMap) {
+        var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(codeMap.map.toJSON()));
+        var newSourceMap = generator.toJSON();
+        newSourceMap.file = path.basename(newSourceMap.file);
+        grunt.file.write(file.dest + ".map", JSON.stringify(newSourceMap, null, '  '));
+      }
     });
   });
 };

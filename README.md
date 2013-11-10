@@ -175,7 +175,7 @@ Type: `Boolean`
 
 Default: `false`
 
-Includes the path to your source JavaScript file as `//@ sourceURL="path/to/my/file.js"` for
+Includes the path to your source JavaScript file as `//# sourceMappingURL="path/to/my/file.js"` for
 [nicer debugging](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl).
 
 ### sourceRoot

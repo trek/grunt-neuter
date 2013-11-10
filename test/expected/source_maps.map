@@ -2,9 +2,11 @@
   "version": 3,
   "file": "source_maps",
   "sources": [
-    "test/fixtures/require_glob/a.js",
-    "test/fixtures/require_glob/b.js"
+    "test/fixtures/simple_require.js",
+    "test/fixtures/relative_require_statements.js",
+    "test/fixtures/relative/b.js",
+    "test/fixtures/relative/a.js"
   ],
   "names": [],
-  "mappings": ";;;AACA;A;;;;;;ACAA;A"
+  "mappings": ";;AAAA;A;;;;;ACCA;AACA;A;;;;;ACFA;AACA;A;;;;;ACAA;AACA;A;;;;;AFEA;AACA;A"
 }

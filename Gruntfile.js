@@ -133,7 +133,7 @@ module.exports = function(grunt) {
           'tmp/do_not_replace_requires_in_statements': ['test/fixtures/do_not_replace_requires_in_statements.js']
         }
       },
-      
+
       // test that single line commented out require statements are not loaded
       comment_out_require: {
         files: {
@@ -164,7 +164,7 @@ module.exports = function(grunt) {
       },
       source_maps: {
         files: {
-          'tmp/source_maps': ['test/fixtures/glob_require.js']
+          'tmp/source_maps': ['test/fixtures/relative_require_statements.js']
         },
         options: {
           includeSourceMap: true

@@ -170,18 +170,21 @@ Default: `function(filepath){ return filepath; }`
 
 Specifying a filepath transform allows you to control the path to the file that actually gets concatenated. For example, when using `filepathTransform: function(filepath){ return 'lib/js/' + filepath; }` in your task options, `require("lib/js/file.js");` can instead be written as `require("file.js");` (This achieves the same result as specifying `basePath: "lib/js/"`). When used in conjunction with the `basePath` option, the base path will be prepended to the `filepath` argument and a second argument will be provided that is the directory of the file **without** the `basePath`.
 
-### includeSourceURL
+### includeSourceMap
 Type: `Boolean`
 
 Default: `false`
 
-Includes the path to your source JavaScript file as `//@ sourceURL="path/to/my/file.js"` for
-[nicer debugging](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl). Note that this wraps your source JavaScript file (as a string) with `eval` and should not be used in prouduction.
+Generates a source map for your JavaScript file using the [Mozilla source map generator](https://github.com/mozilla/source-map). Appends `//@ sourceMappingURL=my-file.js.map`, and drops a file named my-file.js.map in the same directory as the original.
+
+Unlike the previous sourceURL support, this *can* be used in production, because it becomes up to the client to do something about the source map or not (e.g. Firefox doesn't use them by default, though Chrome currently appears to always download the source map file).
+
+Note: this does _not_ generate named mappings (e.g. this will generate warnings if you're feeding it into [grunt-contrib-uglify](https://github.com/gruntjs/grunt-contrib-uglify) via the `sourceMapIn` option).
 
 ### separator
 Type: `String`
 
-Default: `"\n"`
+Default: `"\n\n"`
 
 Neutered files will be joined on this string. If you're post-processing concatenated JavaScript files with a minifier, you may need to use a semicolon `';'` as the separator although the semicolon at the end of the template should suffice.
 

@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 
     // matches `require('some/path/file');` statements.
     // no need to include a .js as this will be appended for you.
-    var requireSplitter = /^\s*(require\(\s*[\'||\"].*[\'||\"]\s*\));*\n*/m;
+    var requireSplitter = /^\s*(require\(\s*[\'||\"].*[\'||\"]\s*\);*\n*)/m;
     var requireMatcher = /^require\(\s*[\'||\"](.*?)(?:\.js)?[\'||\"]\s*\)/m;
 
     // add mustache style delimiters
@@ -106,6 +106,8 @@ module.exports = function(grunt) {
             sections.forEach(function(section){
               if (!section.length) { return; }
 
+              var sectionSize = section.split("\n").length - 1;
+
               // if the section is a require statement
               // recursively call find again. Otherwise
               // push the code section onto the buffer.
@@ -115,12 +117,12 @@ module.exports = function(grunt) {
                 var normalizedPath = normalizePath(match[1]);
                 finder(options.filepathTransform(normalizedPath, dirname));
                 if (skipFiles[normalizedPath]) {
-                  fileOffset = fileOffset - 1;
+                  fileOffset = fileOffset - sectionSize;
                 }
               } else {
                 out.push({filepath: filepath, src: section, start: fileOffset});
               }
-              fileOffset = fileOffset + section.split("\n").length;
+              fileOffset = fileOffset + sectionSize;
             });
           }
         }

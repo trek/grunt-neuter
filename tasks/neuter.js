@@ -89,7 +89,7 @@ module.exports = function(grunt) {
             src = grunt.template.process(src, options.process);
           }
 
-          // if a file should not be nuetered
+          // if a file should not be neutered
           // it is part of the skipFiles option
           // and is simply included
           if (skipFiles[filepath]) {

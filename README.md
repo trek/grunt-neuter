@@ -29,7 +29,9 @@ grunt.loadNpmTasks('grunt-neuter');
 ## Neuter task
 _Run this task with the `grunt neuter` command._
 
-_This task is a [multi task](https://github.com/gruntjs/grunt/wiki/Configuring-tasks) so any targets, files and options should be specified according to the [multi task](https://github.com/gruntjs/grunt/wiki/Configuring-tasks) documentation._
+_This task is a [multi task][] so any targets, files and options should be specified according to the [multi task][] documentation._
+
+[multi task]: http://gruntjs.com/configuring-tasks
 
 Use a neutering task for
 

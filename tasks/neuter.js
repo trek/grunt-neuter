@@ -63,7 +63,23 @@ module.exports = function(grunt) {
     var finder = function(globPath){
       var files = glob.sync(globPath, {});
       if (!files || !files.length) {
-        grunt.log.error('No files found at "' + globPath + '".');
+        if(globPath.match(/[\*\?\[{]/)) {
+            // see Issue #45
+            // https://github.com/trek/grunt-neuter/issues/45
+            //
+            // glob didn't find files matching a wildcard. That's ok, just warn
+            // that nothing is there; user might have misspelled the directory
+            // name or put the files on the wrong place. Either way, wildcard
+            // means "zero or more", so warn, but continue.
+            grunt.log.warn('No files found at "' + globPath + '".');
+        }
+        else {
+          // Not a wildcard, so this should have resolved to an actual file.
+          // require() on a specific file name means that the specified file is
+          // , well, required for the build.
+          // Since that's missing now, bail and fail.
+          grunt.fail.warn('File not found: ' + globPath);
+        }
         return '';
       }
       files.forEach(function(filepath) {

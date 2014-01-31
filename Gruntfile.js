@@ -192,6 +192,14 @@ module.exports = function(grunt) {
             return '// Source for: ' + filepath + '\n' + src;
           }
         }
+      }, 
+      process_multiple_files: {
+        files: [{
+          expand: true,
+          cwd: 'test/fixtures/multiple_files',
+          src: ['*.js'],
+          dest: 'tmp/process_multiple_files/'
+        }]
       }
     },
     jshint: {

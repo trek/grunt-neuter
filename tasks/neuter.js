@@ -142,12 +142,12 @@ module.exports = function(grunt) {
 			});
 
       // test if template block has newlines to offset against
-      var m, n;
+      var m, n, beforeOffset, afterOffset;
       if (m = options.template.match(/([\S\s]*)(?={%= src %})/)) {
-        var beforeOffset = m[0].split("\n").length - 1;
+        beforeOffset = m[0].split("\n").length - 1;
       }
       if (n = options.template.match(/{%= src %}([\S\s]*)/)) {
-        var afterOffset = n[1].split("\n").length - 1;
+        afterOffset = n[1].split("\n").length - 1;
       }
 
 			for (var i = 0; i < out.length; i++) {
@@ -169,11 +169,11 @@ module.exports = function(grunt) {
           else {
             sourceNode.add(line);
           }
-				};
+				}
 
         // If this isn't the last file, add the separator as a dataless
         // chunk.
-				if (i != out.length - 1) {
+				if (i !== out.length - 1) {
 					sourceNode.add(options.separator);
 				}
 			}

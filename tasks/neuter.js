@@ -40,12 +40,22 @@ module.exports = function(grunt) {
       separator: "\n\n",
       includeSourceMap: false,
       skipFiles: [],
-      process: false
+      process: false,
+      scriptRoot: ''
     });
 
     // process, but with no data
     if (options.process === true) {
       options.process = {};
+    }
+
+    // If there is a `scriptRoot` option, then parse it.
+    if (options.scriptRoot.length) {
+        // Strip trailing slashes
+        options.scriptRoot = _.trim(options.scriptRoot, "/");
+
+        // Add trailing slash
+        options.scriptRoot += "/";
     }
 
     // default to using 'neuter' style templates for processing
@@ -193,6 +203,16 @@ module.exports = function(grunt) {
 			if (options.includeSourceMap) {
 				var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(codeMap.map.toJSON()));
 				var newSourceMap = generator.toJSON();
+
+				//-- Strip `scriptRoot` out of source map file names.
+				if (options.scriptRoot && options.scriptRoot.length) {
+					_.each(newSourceMap.sources, function(value, index) {
+						if (value.indexOf(options.scriptRoot) === 0) {
+							newSourceMap.sources[index] = value.replace(options.scriptRoot, "");
+						}
+					});
+				}
+
 				newSourceMap.file = path.basename(newSourceMap.file);
 				grunt.file.write(file.dest + ".map", JSON.stringify(newSourceMap, null, '  '));
 			}

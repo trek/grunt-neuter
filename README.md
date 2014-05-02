@@ -183,6 +183,12 @@ Unlike the previous sourceURL support, this *can* be used in production, because
 
 Note: this does _not_ generate named mappings (e.g. this will generate warnings if you're feeding it into [grunt-contrib-uglify](https://github.com/gruntjs/grunt-contrib-uglify) via the `sourceMapIn` option).
 
+### sourceRoot
+Type: `String`
+
+Default: `""`
+Specifying a source root will strip this value from the path names included in the source map. This allows you to use source maps when the base path of your project is not the same as the web root.
+
 ### separator
 Type: `String`
 

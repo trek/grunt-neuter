@@ -7,6 +7,7 @@
 
 'use strict';
 
+var os = require("os");
 var glob = require("glob");
 var path = require("path");
 
@@ -15,6 +16,10 @@ var SourceMapGenerator = require('source-map').SourceMapGenerator;
 var SourceMapConsumer = require('source-map').SourceMapConsumer;
 
 module.exports = function(grunt) {
+  var read = os.EOL === '\n' ? grunt.file.read : function(filename) {
+    return grunt.file.read(filename).replace(new RegExp(os.EOL, 'g'), '\n');
+  };
+
   grunt.registerMultiTask('neuter', 'Concatenate files in the order you require', function() {
     // track required files for this task.
     // once a file has been required it will be added to this array
@@ -96,7 +101,7 @@ module.exports = function(grunt) {
         if (required.indexOf(filepath) === -1) {
           required.push(filepath);
 
-          var src = grunt.file.read(filepath);
+          var src = read(filepath);
 
           // process file as a template if specified
           if (typeof options.process === 'function') {

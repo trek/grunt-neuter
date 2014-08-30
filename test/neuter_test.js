@@ -115,6 +115,27 @@ exports.neuterTests = {
     test.done();
   },
 
+  require_fail: function(test){
+    grunt.util.spawn({grunt: true, args: ['test-require-fail', '--no-color']}, function(err, result, code) {
+      test.ok(result.stdout.indexOf('Running "test-require-fail" task\n\nRunning "neuter:require_fail" (neuter) task\nWarning: File not found: file-does-not-exist.js Use --force to continue.\n\nAborted due to warnings.') !== -1, 'Failing require test should fail with warning. Output = ' + JSON.stringify(result.stdout));
+      test.done();
+    });
+  },
+
+  require_fail_force: function(test){
+    grunt.util.spawn({grunt: true, args: ['test-require-fail', '--no-color', '--force']}, function(err, result, code) {
+      test.ok(result.stdout.indexOf('Running "test-require-fail" task\n\nRunning "neuter:require_fail" (neuter) task\nWarning: File not found: file-does-not-exist.js Used --force, continuing.\n\nDone, but with warnings.') !== -1, 'Failing require test with --force should warn. Output = ' + JSON.stringify(result.stdout));
+      test.done();
+    });
+  },
+
+  glob_require_fail: function(test){
+    grunt.util.spawn({grunt: true, args: ['test-glob-require-fail', '--no-color']}, function(err, result, code) {
+      test.ok(result.stdout.indexOf('Running "test-glob-require-fail" task\n\nRunning "neuter:glob_require_fail" (neuter) task\n>> No files found at "directory-does-not-exist/*.js".\n\nDone, without errors.') !== -1, 'Failing glob require test should fail with warning. Output = ' + JSON.stringify(result.stdout));
+      test.done();
+    });
+  },
+
   glob_require: function(test){
     var actual = read('tmp/glob_require');
     var expected = read('test/expected/glob_require');

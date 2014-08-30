@@ -229,6 +229,28 @@ module.exports = function(grunt) {
   // plugin's task(s), then test the result.
   grunt.registerTask('test', ['neuter', 'nodeunit']);
 
+  grunt.registerTask('test-require-fail', 'Sets the neuter config to run the failing require task and runs it.', function() {
+    grunt.config.set('neuter', {
+      require_fail: {
+        files: {
+          'tmp/require_fail': ['test/fixtures/require_fail.js']
+        }
+      }
+    });
+    grunt.task.run('neuter');
+  });
+
+  grunt.registerTask('test-glob-require-fail', 'Sets the neuter config to run the failing glob_require task and runs it.', function() {
+    grunt.config.set('neuter', {
+      glob_require_fail: {
+        files: {
+          'tmp/glob_require_fail': ['test/fixtures/glob_require_fail.js']
+        }
+      }
+    });
+    grunt.task.run('neuter');
+  });
+
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test', 'clean']);
 

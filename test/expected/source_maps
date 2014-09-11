@@ -10,4 +10,5 @@ var a = 'a, from within glob';
 var b = 'b, from within glob';
 
 
-})();//@ sourceMappingURL=source_maps.map
+})();
+//# sourceMappingURL=source_maps.map

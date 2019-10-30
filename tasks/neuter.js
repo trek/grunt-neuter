@@ -141,6 +141,8 @@ module.exports = function(grunt) {
 				};
 			});
 
+        required = [];
+
       // test if template block has newlines to offset against
       var m, n, beforeOffset, afterOffset;
       if (m = options.template.match(/([\S\s]*)(?={%= src %})/)) {
@@ -196,6 +198,7 @@ module.exports = function(grunt) {
 				newSourceMap.file = path.basename(newSourceMap.file);
 				grunt.file.write(file.dest + ".map", JSON.stringify(newSourceMap, null, '  '));
 			}
+        out = [];
     });
   });
 };

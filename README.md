@@ -4,9 +4,9 @@
 > Concatenate files in the order you `require`.
 
 ## Archive Notice
-Although grunt is still alive and kicking some changes over the years have removed the need for this library:
+Although grunt is still alive as a task runner, changes over the years have removed the need for this library:
 
-* People generally have moved to gulp, webpack, or other tools
+* People generally have moved to gulp, webpack, or other tools for package building.
 * While `require` is still used heavily, the future is clearly `import`.
 
 This repo and published npm package remain for older projects, but this repo is archived. 

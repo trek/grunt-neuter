@@ -3,6 +3,14 @@
 
 > Concatenate files in the order you `require`.
 
+## Archive Notice
+Although grunt is still alive and kicking some changes over the years have removed the need for this library:
+
+* People generally have moved to gulp, webpack, or other tools
+* While `require` is still used heavily, the future is clearly `import`.
+
+This repo and published npm package remain for older projects, but this repo is archived. 
+
 ## Getting Started
 If you haven't used [grunt][] before, be sure to check out the [Getting Started][] guide, as it explains how to create a [gruntfile][Getting Started] as well as install and use grunt plugins. Once you're familiar with that process, install this plugin with this command:
 

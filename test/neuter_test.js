@@ -166,5 +166,18 @@ exports.neuterTests = {
     test.equal(actual, expected, 'files are processed with a function');
 
     test.done();
+  }, 
+
+  process_multiple_files: function(test) {
+    var actual1 = grunt.file.read('tmp/process_multiple_files/file1.js');
+    var actual2 = grunt.file.read('tmp/process_multiple_files/file2.js');
+
+    var expected1 = grunt.file.read('test/expected/process_multiple_files/file1.js');
+    var expected2 = grunt.file.read('test/expected/process_multiple_files/file2.js');
+
+    test.equal(actual1, expected1, 'files are processed with multi task - first file');
+    test.equal(actual2, expected2, 'files are processed with multi task - second file');
+
+    test.done();
   }
 };
